@@ -5,10 +5,25 @@ import Chart from 'react-apexcharts';
 
 function App() {
   const [dates, setDates] = useState<string[]>([]);
+  const [inputError, setInputError] = useState<string|null>(null);
 
   const onDatesUpdated = (text: string) => {
-    const dates = text.split(/\r?\n/).map(d => new Date(d));
-    setDates(dates);
+    setInputError(null);
+    try {
+      const dates = text.split(/\r?\n/)
+        .map(dateAsString => {
+          const date = new Date(dateAsString)
+
+          if (isNaN(date)) {
+            throw new Error(`Invalid date: "${dateAsString}"`);
+          }
+
+          return date;
+        });
+      setDates(dates);
+    } catch (error) {
+      setInputError(error.message);
+    }
   };
 
   const countByYear = collect(dates)
@@ -31,6 +46,9 @@ function App() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p>Paste a list of dates below:</p>
+              {inputError && (
+                <p className="bg-pink-700 text-neutral-100">Error: {inputError}</p>
+              )}
               <textarea id="dates" onChange={e => onDatesUpdated(e.target.value)} rows={20}></textarea>
             </div>
             <div>
