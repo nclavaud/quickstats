@@ -1,10 +1,11 @@
+import { collect } from 'collect.js';
 import { useState } from 'react';
 
 function App() {
   const [dates, setDates] = useState<string[]>([]);
 
   const onDatesUpdated = (text: string) => {
-    const dates = text.split(/\r?\n/);
+    const dates = text.split(/\r?\n/).map(d => new Date(d));
     setDates(dates);
   };
 
@@ -26,6 +27,14 @@ function App() {
                   <tr>
                     <th className="border px-2">Count</th>
                     <td className="border px-2">{dates.length}</td>
+                  </tr>
+                  <tr>
+                    <th className="border px-2">Min</th>
+                    <td className="border px-2">{dates.length ? new Date(collect(dates).min()).toLocaleDateString() : '-'}</td>
+                  </tr>
+                  <tr>
+                    <th className="border px-2">Max</th>
+                    <td className="border px-2">{dates.length ? new Date(collect(dates).max()).toLocaleDateString() : '-'}</td>
                   </tr>
                 </tbody>
               </table>
