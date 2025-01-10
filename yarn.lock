@@ -772,6 +772,11 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
+collect.js@^4.36.1:
+  version "4.36.1"
+  resolved "https://registry.yarnpkg.com/collect.js/-/collect.js-4.36.1.tgz#0194c52e90e01db6f136d28e7a3cf88c5687894d"
+  integrity sha512-jd97xWPKgHn6uvK31V6zcyPd40lUJd7gpYxbN2VOVxGWO4tyvS9Li4EpsFjXepGTo2tYcOTC4a8YsbQXMJ4XUw==
+
 color-convert@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-2.0.1.tgz#72d3a68d598c9bdb3af2ad1e84f21d896abd4de3"
