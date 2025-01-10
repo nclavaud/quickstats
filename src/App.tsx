@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Chart from 'react-apexcharts';
 
 function App() {
-  const [dates, setDates] = useState<string[]>([]);
+  const [dates, setDates] = useState<Date[]>([]);
   const [inputError, setInputError] = useState<string|null>(null);
 
   const onDatesUpdated = (text: string) => {
@@ -14,7 +14,7 @@ function App() {
         .map(dateAsString => {
           const date = new Date(dateAsString)
 
-          if (isNaN(date)) {
+          if (isNaN(date.getTime())) {
             throw new Error(`Invalid date: "${dateAsString}"`);
           }
 
@@ -22,17 +22,19 @@ function App() {
         });
       setDates(dates);
     } catch (error) {
-      setInputError(error.message);
+      if (error instanceof Error) {
+        setInputError(error.message);
+      }
     }
   };
 
   const countByYear = collect(dates)
-    .countBy(date => lightFormat(date, 'yyyy'))
+    .countBy((date: Date) => lightFormat(date, 'yyyy'))
     .sortKeys()
     .all();
 
   const countByMonth = collect(dates)
-    .countBy(date => lightFormat(date, 'yyyy-MM'))
+    .countBy((date: Date) => lightFormat(date, 'yyyy-MM'))
     .sortKeys()
     .all();
 
@@ -87,7 +89,7 @@ function App() {
                     }}
                     series={[{
                       name: 'count',
-                        data: Object.values(countByYear),
+                        data: Object.values(countByYear) as number[],
                     }]}
                     type="bar"
                     width="500"
@@ -111,7 +113,7 @@ function App() {
                     }}
                     series={[{
                       name: 'count',
-                        data: Object.values(countByMonth),
+                        data: Object.values(countByMonth) as number[],
                     }]}
                     type="bar"
                     width="500"
