@@ -11,6 +11,11 @@ function App() {
     setDates(dates);
   };
 
+  const countByYear = collect(dates)
+    .countBy(date => lightFormat(date, 'yyyy'))
+    .sortKeys()
+    .all();
+
   const countByMonth = collect(dates)
     .countBy(date => lightFormat(date, 'yyyy-MM'))
     .sortKeys()
@@ -45,6 +50,28 @@ function App() {
                   </tr>
                 </tbody>
               </table>
+              <h3>By year</h3>
+              {dates.length ? (
+                <Chart
+                  options={{
+                    chart: {
+                      animations: {
+                        enabled: false,
+                      },
+                      id: 'chart-count-by-year',
+                    },
+                    xaxis: {
+                      categories: Object.keys(countByYear),
+                    },
+                  }}
+                  series={[{
+                    name: 'count',
+                      data: Object.values(countByYear),
+                  }]}
+                  type="bar"
+                  width="500"
+                />
+              ) : 'n/a'}
               <h3>By month</h3>
               {dates.length ? (
                 <Chart
