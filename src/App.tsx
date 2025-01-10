@@ -1,6 +1,7 @@
 import { collect } from 'collect.js';
 import { lightFormat} from 'date-fns';
 import { useState } from 'react';
+import Chart from 'react-apexcharts';
 
 function App() {
   const [dates, setDates] = useState<string[]>([]);
@@ -11,7 +12,7 @@ function App() {
   };
 
   const countByMonth = collect(dates)
-    .countBy(date => lightFormat(date, 'yyyyMM'))
+    .countBy(date => lightFormat(date, 'yyyy-MM'))
     .sortKeys()
     .all();
 
@@ -45,16 +46,27 @@ function App() {
                 </tbody>
               </table>
               <h3>By month</h3>
-              <table>
-                <tbody>
-                  {Object.entries(countByMonth).map(([key, value]) => (
-                    <tr key={key}>
-                      <th>{key}</th>
-                      <td>{value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              {dates.length ? (
+                <Chart
+                  options={{
+                    chart: {
+                      animations: {
+                        enabled: false,
+                      },
+                      id: 'chart-count-by-month',
+                    },
+                    xaxis: {
+                      categories: Object.keys(countByMonth),
+                    },
+                  }}
+                  series={[{
+                    name: 'count',
+                      data: Object.values(countByMonth),
+                  }]}
+                  type="bar"
+                  width="500"
+                />
+              ) : 'n/a'}
             </div>
           </div>
         </div>
