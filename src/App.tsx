@@ -1,4 +1,5 @@
 import { collect } from 'collect.js';
+import { lightFormat} from 'date-fns';
 import { useState } from 'react';
 
 function App() {
@@ -8,6 +9,11 @@ function App() {
     const dates = text.split(/\r?\n/).map(d => new Date(d));
     setDates(dates);
   };
+
+  const countByMonth = collect(dates)
+    .countBy(date => lightFormat(date, 'yyyyMM'))
+    .sortKeys()
+    .all();
 
   return (
     <>
@@ -36,6 +42,17 @@ function App() {
                     <th className="border px-2">Max</th>
                     <td className="border px-2">{dates.length ? new Date(collect(dates).max()).toLocaleDateString() : '-'}</td>
                   </tr>
+                </tbody>
+              </table>
+              <h3>By month</h3>
+              <table>
+                <tbody>
+                  {Object.entries(countByMonth).map(([key, value]) => (
+                    <tr key={key}>
+                      <th>{key}</th>
+                      <td>{value}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
