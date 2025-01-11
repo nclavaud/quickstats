@@ -21,8 +21,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-test-and-deploy:
-    name: Build, test and deploy
+  deploy:
+    name: Deploy
 
     timeout-minutes: 20
 
