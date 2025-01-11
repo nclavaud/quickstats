@@ -1,5 +1,5 @@
 import { collect } from 'collect.js';
-import { lightFormat} from 'date-fns';
+import { lightFormat, format } from 'date-fns';
 import { useState } from 'react';
 import Chart from 'react-apexcharts';
 
@@ -36,6 +36,22 @@ function App() {
   const countByMonth = collect(dates)
     .countBy((date: Date) => lightFormat(date, 'yyyy-MM'))
     .sortKeys()
+    .all();
+
+  const dayLabels: { [key: number]: string } = {
+    1: 'Mon',
+    2: 'Tue',
+    3: 'Wed',
+    4: 'Thu',
+    5: 'Fri',
+    6: 'Sat',
+    7: 'Sun',
+  };
+
+  const countByDayOfWeek = collect(dates)
+    .countBy((date: Date) => format(date, 'i'))
+    .sortKeys()
+    .mapWithKeys((value: string, key: number) => [dayLabels[key], value])
     .all();
 
   return (
@@ -123,6 +139,35 @@ function App() {
                       {
                         name: 'count',
                         data: Object.values(countByMonth) as number[],
+                      },
+                    ]}
+                    type="bar"
+                    width="500"
+                  />
+                ) : 'n/a'}
+              </div>
+              <div className="mb-4">
+                <h3>By day of week</h3>
+                {dates.length ? (
+                  <Chart
+                    options={{
+                      chart: {
+                        animations: {
+                          enabled: false,
+                        },
+                        id: 'chart-count-by-dow',
+                      },
+                      dataLabels: {
+                        enabled: false,
+                      },
+                      xaxis: {
+                        categories: Object.keys(countByDayOfWeek),
+                      },
+                    }}
+                    series={[
+                      {
+                        name: 'count',
+                        data: Object.values(countByDayOfWeek) as number[],
                       },
                     ]}
                     type="bar"
