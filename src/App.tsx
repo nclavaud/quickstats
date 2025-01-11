@@ -41,51 +41,49 @@ function App() {
 
   return (
     <>
-      <header className="bg-pink-700 text-neutral-100 px-8 py-4 mb-4 flex flex-row items-baseline place-content-between">
-        <h1 className="text-2xl font-bold pe-8">QuickStats</h1>
-        <p><a href="https://github.com/nclavaud/quickstats" target="_blank" rel="noopener">GitHub</a></p>
-      </header>
-      <div className="container mx-auto bg-neutral-100">
-        <div className="min-h-screen bg-neutral-100">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p>Paste a list of dates below:</p>
-              {inputError && (
-                <p className="bg-pink-700 text-neutral-100">Error: {inputError}</p>
-              )}
-              <textarea id="dates" onChange={e => onDatesUpdated(e.target.value)} rows={20}></textarea>
+      <div className="min-h-screen flex flex-col items-stretch">
+        <header className="bg-pink-700 text-neutral-100 px-8 py-4 flex-none flex flex-row items-baseline place-content-between">
+          <h1 className="text-2xl font-bold pe-8">QuickStats</h1>
+          <p><a href="https://github.com/nclavaud/quickstats" target="_blank" rel="noopener">GitHub</a></p>
+        </header>
+        <div className="bg-white flex-grow flex flex-row items-stretch">
+          <div className="bg-neutral-100 p-6">
+            <p className="mb-2">Paste a list of dates below:</p>
+            {inputError && (
+              <p className="bg-pink-700 text-neutral-100">Error: {inputError}</p>
+            )}
+            <textarea id="dates" onChange={e => onDatesUpdated(e.target.value)} rows={20}></textarea>
+          </div>
+          <div className="p-6">
+            <div className="mb-4">
+              <table className="table-auto w-full">
+                <tbody>
+                  <tr>
+                    <th className="border px-2 text-start">Count</th>
+                    <td className="border px-2 text-end">{dates.length}</td>
+                  </tr>
+                  <tr>
+                    <th className="border px-2 text-start">Min</th>
+                    <td className="border px-2 text-end">{minDate ? minDate.toLocaleDateString() : '-'}</td>
+                  </tr>
+                  <tr>
+                    <th className="border px-2 text-start">Max</th>
+                    <td className="border px-2 text-end">{maxDate ? maxDate.toLocaleDateString() : '-'}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div>
-              <div className="mb-4">
-                <table className="table-fixed">
-                  <tbody>
-                    <tr>
-                      <th className="border px-2">Count</th>
-                      <td className="border px-2">{dates.length}</td>
-                    </tr>
-                    <tr>
-                      <th className="border px-2">Min</th>
-                      <td className="border px-2">{minDate ? minDate.toLocaleDateString() : '-'}</td>
-                    </tr>
-                    <tr>
-                      <th className="border px-2">Max</th>
-                      <td className="border px-2">{maxDate ? maxDate.toLocaleDateString() : '-'}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="mb-4">
-                <h3>By year</h3>
-                {dates.length ? <BarChart data={countByYear} id='chart-count-by-year' /> : 'n/a'}
-              </div>
-              <div className="mb-4">
-                <h3>By month</h3>
-                {dates.length ? <BarChart data={countByMonth} id='chart-count-by-month' /> : 'n/a'}
-              </div>
-              <div className="mb-4">
-                <h3>By day of week</h3>
-                {dates.length ? <BarChart data={countByDayOfWeek} id='chart-count-by-dow' /> : 'n/a'}
-              </div>
+            <div className="mb-4">
+              <h3 className="font-medium">Distribution by year</h3>
+              {dates.length ? <BarChart data={countByYear} id='chart-count-by-year' /> : 'n/a'}
+            </div>
+            <div className="mb-4">
+              <h3 className="font-medium">Distribution by month</h3>
+              {dates.length ? <BarChart data={countByMonth} id='chart-count-by-month' /> : 'n/a'}
+            </div>
+            <div className="mb-4">
+              <h3 className="font-medium">Distribution by day of week</h3>
+              {dates.length ? <BarChart data={countByDayOfWeek} id='chart-count-by-dow' /> : 'n/a'}
             </div>
           </div>
         </div>
