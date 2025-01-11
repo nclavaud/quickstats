@@ -28,6 +28,9 @@ function App() {
     }
   };
 
+  const minDate = dates.length ? new Date(collect(dates).min()) : null;
+  const maxDate = dates.length ? new Date(collect(dates).max()) : null;
+
   const countByYear = collect(dates)
     .countBy((date: Date) => lightFormat(date, 'yyyy'))
     .sortKeys()
@@ -92,11 +95,11 @@ function App() {
                     </tr>
                     <tr>
                       <th className="border px-2">Min</th>
-                      <td className="border px-2">{dates.length ? new Date(collect(dates).min()).toLocaleDateString() : '-'}</td>
+                      <td className="border px-2">{minDate ? minDate.toLocaleDateString() : '-'}</td>
                     </tr>
                     <tr>
                       <th className="border px-2">Max</th>
-                      <td className="border px-2">{dates.length ? new Date(collect(dates).max()).toLocaleDateString() : '-'}</td>
+                      <td className="border px-2">{maxDate ? maxDate.toLocaleDateString() : '-'}</td>
                     </tr>
                   </tbody>
                 </table>
