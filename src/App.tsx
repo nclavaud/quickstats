@@ -1,11 +1,11 @@
 import { collect } from 'collect.js';
 import { useState } from 'react';
-import Chart from 'react-apexcharts';
 import {
   countByDayOfWeek as getCountByDayOfWeek,
   countByMonth as getCountByMonth,
   countByYear as getCountByYear,
 } from './counts';
+import BarChart from './BarChart';
 
 function App() {
   const [dates, setDates] = useState<Date[]>([]);
@@ -75,90 +75,15 @@ function App() {
               </div>
               <div className="mb-4">
                 <h3>By year</h3>
-                {dates.length ? (
-                  <Chart
-                    options={{
-                      chart: {
-                        animations: {
-                          enabled: false,
-                        },
-                        id: 'chart-count-by-year',
-                      },
-                      dataLabels: {
-                        enabled: false,
-                      },
-                      xaxis: {
-                        categories: Object.keys(countByYear),
-                      },
-                    }}
-                    series={[
-                      {
-                        name: 'count',
-                        data: Object.values(countByYear) as number[],
-                      },
-                    ]}
-                    type="bar"
-                    width="500"
-                  />
-                ) : 'n/a'}
+                {dates.length ? <BarChart data={countByYear} id='chart-count-by-year' /> : 'n/a'}
               </div>
               <div className="mb-4">
                 <h3>By month</h3>
-                {dates.length ? (
-                  <Chart
-                    options={{
-                      chart: {
-                        animations: {
-                          enabled: false,
-                        },
-                        id: 'chart-count-by-month',
-                      },
-                      dataLabels: {
-                        enabled: false,
-                      },
-                      xaxis: {
-                        categories: Object.keys(countByMonth),
-                      },
-                    }}
-                    series={[
-                      {
-                        name: 'count',
-                        data: Object.values(countByMonth) as number[],
-                      },
-                    ]}
-                    type="bar"
-                    width="500"
-                  />
-                ) : 'n/a'}
+                {dates.length ? <BarChart data={countByMonth} id='chart-count-by-month' /> : 'n/a'}
               </div>
               <div className="mb-4">
                 <h3>By day of week</h3>
-                {dates.length ? (
-                  <Chart
-                    options={{
-                      chart: {
-                        animations: {
-                          enabled: false,
-                        },
-                        id: 'chart-count-by-dow',
-                      },
-                      dataLabels: {
-                        enabled: false,
-                      },
-                      xaxis: {
-                        categories: Object.keys(countByDayOfWeek),
-                      },
-                    }}
-                    series={[
-                      {
-                        name: 'count',
-                        data: Object.values(countByDayOfWeek) as number[],
-                      },
-                    ]}
-                    type="bar"
-                    width="500"
-                  />
-                ) : 'n/a'}
+                {dates.length ? <BarChart data={countByDayOfWeek} id='chart-count-by-dow' /> : 'n/a'}
               </div>
             </div>
           </div>
