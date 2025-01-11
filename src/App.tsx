@@ -1,5 +1,5 @@
 import { collect } from 'collect.js';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   countByDayOfWeek as getCountByDayOfWeek,
   countByMonth as getCountByMonth,
@@ -10,6 +10,15 @@ import BarChart from './BarChart';
 function App() {
   const [dates, setDates] = useState<Date[]>([]);
   const [inputError, setInputError] = useState<string|null>(null);
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const clearTextarea = () => {
+    if (textareaRef.current) {
+      textareaRef.current.value = '';
+    }
+    setDates([]);
+  };
 
   const onDatesUpdated = (text: string) => {
     setInputError(null);
@@ -47,12 +56,15 @@ function App() {
           <p><a href="https://github.com/nclavaud/quickstats" target="_blank" rel="noopener">GitHub</a></p>
         </header>
         <div className="bg-white flex-grow flex flex-row items-stretch">
-          <div className="bg-neutral-100 p-6">
+          <div className="bg-neutral-100 p-6 flex flex-col">
             <p className="mb-2">Paste a list of dates below:</p>
+            <textarea id="dates" ref={textareaRef} onChange={e => onDatesUpdated(e.target.value)} rows={10}></textarea>
             {inputError && (
               <p className="bg-pink-700 text-neutral-100">Error: {inputError}</p>
             )}
-            <textarea id="dates" onChange={e => onDatesUpdated(e.target.value)} rows={20}></textarea>
+            <div className="flex flex-row place-content-between mt-3">
+              <button className="px-3 py-2 uppercase bg-pink-100 hover:bg-pink-600 text-neutral-700" onClick={clearTextarea}>Clear</button>
+            </div>
           </div>
           <div className="p-6">
             <div className="mb-4">
