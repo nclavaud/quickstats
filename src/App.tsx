@@ -83,6 +83,9 @@ function App() {
                         },
                         id: 'chart-count-by-year',
                       },
+                      dataLabels: {
+                        enabled: false,
+                      },
                       xaxis: {
                         categories: Object.keys(countByYear),
                       },
@@ -106,6 +109,9 @@ function App() {
                           enabled: false,
                         },
                         id: 'chart-count-by-month',
+                      },
+                      dataLabels: {
+                        enabled: false,
                       },
                       xaxis: {
                         categories: Object.keys(countByMonth),
