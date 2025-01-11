@@ -48,8 +48,21 @@ function App() {
     7: 'Sun',
   };
 
-  const countByDayOfWeek = collect(dates)
-    .countBy((date: Date) => format(date, 'i'))
+  const countByDayOfWeekDefault = {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+  };
+
+  const countByDayOfWeek = collect(countByDayOfWeekDefault).merge(
+    collect(dates)
+      .countBy((date: Date) => format(date, 'i'))
+      .all()
+    )
     .sortKeys()
     .mapWithKeys((value: string, key: number) => [dayLabels[key], value])
     .all();
