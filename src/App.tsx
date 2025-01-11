@@ -90,10 +90,12 @@ function App() {
                         categories: Object.keys(countByYear),
                       },
                     }}
-                    series={[{
-                      name: 'count',
+                    series={[
+                      {
+                        name: 'count',
                         data: Object.values(countByYear) as number[],
-                    }]}
+                      },
+                    ]}
                     type="bar"
                     width="500"
                   />
@@ -117,10 +119,12 @@ function App() {
                         categories: Object.keys(countByMonth),
                       },
                     }}
-                    series={[{
-                      name: 'count',
+                    series={[
+                      {
+                        name: 'count',
                         data: Object.values(countByMonth) as number[],
-                    }]}
+                      },
+                    ]}
                     type="bar"
                     width="500"
                   />
