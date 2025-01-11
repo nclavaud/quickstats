@@ -2,7 +2,7 @@ import { collect } from 'collect.js';
 import { lightFormat, format } from 'date-fns';
 import { useState } from 'react';
 import Chart from 'react-apexcharts';
-import { generateRangeYears } from './range';
+import { generateRangeMonths, generateRangeYears } from './range';
 
 function App() {
   const [dates, setDates] = useState<Date[]>([]);
@@ -41,9 +41,13 @@ function App() {
     )
     .all();
 
-  const countByMonth = collect(dates)
-    .countBy((date: Date) => lightFormat(date, 'yyyy-MM'))
-    .sortKeys()
+  const countByMonthDefault = minDate && maxDate ? generateRangeMonths(minDate, maxDate) : [];
+  const countByMonth = collect(countByMonthDefault)
+    .merge(collect(dates)
+      .countBy((date: Date) => lightFormat(date, 'yyyy-MM'))
+      .sortKeys()
+      .all()
+    )
     .all();
 
   const dayLabels: { [key: number]: string } = {
