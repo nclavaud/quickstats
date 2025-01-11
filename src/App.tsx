@@ -2,6 +2,7 @@ import { collect } from 'collect.js';
 import { lightFormat, format } from 'date-fns';
 import { useState } from 'react';
 import Chart from 'react-apexcharts';
+import { generateRangeYears } from './range';
 
 function App() {
   const [dates, setDates] = useState<Date[]>([]);
@@ -31,9 +32,13 @@ function App() {
   const minDate = dates.length ? new Date(collect(dates).min()) : null;
   const maxDate = dates.length ? new Date(collect(dates).max()) : null;
 
-  const countByYear = collect(dates)
-    .countBy((date: Date) => lightFormat(date, 'yyyy'))
-    .sortKeys()
+  const countByYearDefault = minDate && maxDate ? generateRangeYears(minDate, maxDate) : [];
+  const countByYear = collect(countByYearDefault)
+    .merge(collect(dates)
+      .countBy((date: Date) => lightFormat(date, 'yyyy'))
+      .sortKeys()
+      .all()
+    )
     .all();
 
   const countByMonth = collect(dates)
