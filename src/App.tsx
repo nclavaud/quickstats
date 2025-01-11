@@ -1,8 +1,11 @@
 import { collect } from 'collect.js';
-import { lightFormat, format } from 'date-fns';
 import { useState } from 'react';
 import Chart from 'react-apexcharts';
-import { generateRangeMonths, generateRangeYears } from './range';
+import {
+  countByDayOfWeek as getCountByDayOfWeek,
+  countByMonth as getCountByMonth,
+  countByYear as getCountByYear,
+} from './counts';
 
 function App() {
   const [dates, setDates] = useState<Date[]>([]);
@@ -32,52 +35,9 @@ function App() {
   const minDate = dates.length ? new Date(collect(dates).min()) : null;
   const maxDate = dates.length ? new Date(collect(dates).max()) : null;
 
-  const countByYearDefault = minDate && maxDate ? generateRangeYears(minDate, maxDate) : [];
-  const countByYear = collect(countByYearDefault)
-    .merge(collect(dates)
-      .countBy((date: Date) => lightFormat(date, 'yyyy'))
-      .sortKeys()
-      .all()
-    )
-    .all();
-
-  const countByMonthDefault = minDate && maxDate ? generateRangeMonths(minDate, maxDate) : [];
-  const countByMonth = collect(countByMonthDefault)
-    .merge(collect(dates)
-      .countBy((date: Date) => lightFormat(date, 'yyyy-MM'))
-      .sortKeys()
-      .all()
-    )
-    .all();
-
-  const dayLabels: { [key: number]: string } = {
-    1: 'Mon',
-    2: 'Tue',
-    3: 'Wed',
-    4: 'Thu',
-    5: 'Fri',
-    6: 'Sat',
-    7: 'Sun',
-  };
-
-  const countByDayOfWeekDefault = {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-  };
-
-  const countByDayOfWeek = collect(countByDayOfWeekDefault).merge(
-    collect(dates)
-      .countBy((date: Date) => format(date, 'i'))
-      .all()
-    )
-    .sortKeys()
-    .mapWithKeys((value: string, key: number) => [dayLabels[key], value])
-    .all();
+  const countByYear = getCountByYear(dates);
+  const countByMonth = getCountByMonth(dates);
+  const countByDayOfWeek = getCountByDayOfWeek(dates);
 
   return (
     <>
