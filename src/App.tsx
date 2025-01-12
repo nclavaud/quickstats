@@ -1,4 +1,5 @@
 import { collect } from 'collect.js';
+import { format } from 'date-fns';
 import { useRef, useState } from 'react';
 import {
   countByDayOfWeek as getCountByDayOfWeek,
@@ -46,6 +47,8 @@ function App() {
       }
     }
   };
+
+  const buildDate = new Date(__BUILD_DATE__);
 
   const minDate = dates.length ? new Date(collect(dates).min()) : null;
   const maxDate = dates.length ? new Date(collect(dates).max()) : null;
@@ -111,6 +114,9 @@ function App() {
             </div>
           </div>
         </div>
+        <footer className="p-3 text-end">
+          <p className="text-sm text-neutral-400">Last update: {format(buildDate, 'yyyy-MM-dd HH:mm')}</p>
+        </footer>
       </div>
     </>
   )
