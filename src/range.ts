@@ -1,3 +1,6 @@
+import { add, format } from 'date-fns';
+import { weekDate } from './date';
+
 export const generateRangeMonths = (start: Date, end: Date): { [key: string]: number } => {
   if (start > end) {
     return generateRangeMonths(end, start);
@@ -11,6 +14,24 @@ export const generateRangeMonths = (start: Date, end: Date): { [key: string]: nu
   for (let i = s; i <= e; i = new Date(i.getFullYear(), i.getMonth() + 1)) {
     const month = i.getMonth() + 1;
     range[`${i.getFullYear()}-${month < 10 ? '0' : ''}${month}`] = 0;
+  }
+
+  return range;
+};
+
+export const generateRangeWeeks = (start: Date, end: Date): { [key: string]: number } => {
+  if (start > end) {
+    return generateRangeWeeks(end, start);
+  }
+
+  const range: { [key: string]: number } = {};
+
+  const dowStart = parseInt(format(start, 'i'));
+  const dowEnd = parseInt(format(end, 'i'));
+
+  let limit = dowEnd < dowStart ? add(end, { days: dowStart - dowEnd }) : end;
+  for (let i = start; i <= limit; i = add(i, { weeks: 1 })) {
+    range[weekDate(i)] = 0;
   }
 
   return range;

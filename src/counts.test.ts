@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { countByDayOfWeek, countByMonth, countByYear } from './counts';
+import { countByDayOfWeek, countByMonth, countByWeek, countByYear } from './counts';
 
 test('it counts items by year', () => {
   const dates = [
@@ -53,6 +53,28 @@ test('it counts items by month', () => {
 
 test('it returns no months when dates are empty', () => {
   expect(countByMonth([])).toEqual({});
+});
+
+test('it counts items by week', () => {
+  const dates = [
+    new Date('2024-12-29'),
+    new Date('2024-12-30'),
+    new Date('2024-12-31'),
+    new Date('2025-01-01'),
+    new Date('2025-01-02'),
+    new Date('2025-01-03'),
+  ];
+
+  const expected = {
+    '2024-W52': 1,
+    '2025-W01': 5,
+  };
+
+  expect(countByWeek(dates)).toEqual(expected);
+});
+
+test('it returns no weeks when dates are empty', () => {
+  expect(countByWeek([])).toEqual({});
 });
 
 test('it counts items by day of week', () => {

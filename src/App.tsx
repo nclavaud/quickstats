@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import {
   countByDayOfWeek as getCountByDayOfWeek,
   countByMonth as getCountByMonth,
+  countByWeek as getCountByWeek,
   countByYear as getCountByYear,
 } from './counts';
 import BarChart from './BarChart';
@@ -51,6 +52,7 @@ function App() {
 
   const countByYear = getCountByYear(dates);
   const countByMonth = getCountByMonth(dates);
+  const countByWeek = getCountByWeek(dates);
   const countByDayOfWeek = getCountByDayOfWeek(dates);
 
   return (
@@ -98,6 +100,10 @@ function App() {
             <div className="mb-4">
               <h3 className="font-medium">Distribution by month</h3>
               {dates.length ? <BarChart data={countByMonth} id='chart-count-by-month' /> : 'n/a'}
+            </div>
+            <div className="mb-4">
+              <h3 className="font-medium">Distribution by week</h3>
+              {dates.length ? <BarChart data={countByWeek} id='chart-count-by-week' /> : 'n/a'}
             </div>
             <div className="mb-4">
               <h3 className="font-medium">Distribution by day of week</h3>

@@ -1,6 +1,7 @@
 import { collect } from 'collect.js';
 import { format, lightFormat } from 'date-fns';
-import { generateRangeMonths, generateRangeYears } from './range';
+import { weekDate } from './date';
+import { generateRangeMonths, generateRangeWeeks, generateRangeYears } from './range';
 
 export const countByYear = (dates: Date[]) => {
   if (dates.length == 0) {
@@ -30,6 +31,23 @@ export const countByMonth = (dates: Date[]) => {
   return collect(generateRangeMonths(minDate, maxDate))
     .merge(collect(dates)
       .countBy((date: Date) => lightFormat(date, 'yyyy-MM'))
+      .sortKeys()
+      .all()
+    )
+    .all();
+}
+
+export const countByWeek = (dates: Date[]) => {
+  if (dates.length == 0) {
+    return {};
+  }
+
+  const minDate = new Date(collect(dates).min());
+  const maxDate = new Date(collect(dates).max());
+
+  return collect(generateRangeWeeks(minDate, maxDate))
+    .merge(collect(dates)
+      .countBy((date: Date) => weekDate(date))
       .sortKeys()
       .all()
     )

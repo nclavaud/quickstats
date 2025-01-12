@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { generateRangeMonths, generateRangeYears } from './range';
+import { generateRangeMonths, generateRangeWeeks, generateRangeYears } from './range';
 
 test('it generates a series of years between two dates', () => {
   const expected = {
@@ -46,4 +46,12 @@ test('it generates series of months over several years', () => {
     '2024-02': 0,
   };
   expect(generateRangeMonths(new Date('2023-10-01'), new Date('2024-02-05'))).toEqual(expected);
+});
+
+test('it generates a series of weeks', () => {
+  const expected = {
+    '2024-W52': 0,
+    '2025-W01': 0,
+  };
+  expect(generateRangeWeeks(new Date('2024-12-29'), new Date('2025-01-03'))).toEqual(expected);
 });
