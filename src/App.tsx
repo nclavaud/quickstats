@@ -19,6 +19,7 @@ function App() {
       textareaRef.current.value = '';
     }
     setDates([]);
+    setInputError(null);
     setUpdateEnabled(false);
   };
 
