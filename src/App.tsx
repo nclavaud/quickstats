@@ -10,6 +10,7 @@ import BarChart from './BarChart';
 function App() {
   const [dates, setDates] = useState<Date[]>([]);
   const [inputError, setInputError] = useState<string|null>(null);
+  const [updateEnabled, setUpdateEnabled] = useState<boolean>(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -18,9 +19,11 @@ function App() {
       textareaRef.current.value = '';
     }
     setDates([]);
+    setUpdateEnabled(false);
   };
 
-  const onDatesUpdated = (text: string) => {
+  const updateStats = () => {
+    const text = textareaRef.current?.value || '';
     setInputError(null);
     try {
       const dates = text.split(/\r?\n/)
@@ -34,6 +37,7 @@ function App() {
           return date;
         });
       setDates(dates);
+      setUpdateEnabled(false);
     } catch (error) {
       if (error instanceof Error) {
         setInputError(error.message);
@@ -58,12 +62,13 @@ function App() {
         <div className="bg-white flex-grow flex flex-row items-stretch">
           <div className="bg-neutral-100 p-6 flex flex-col">
             <p className="mb-2">Paste a list of dates below:</p>
-            <textarea id="dates" ref={textareaRef} onChange={e => onDatesUpdated(e.target.value)} rows={10}></textarea>
+            <textarea id="dates" ref={textareaRef} onChange={() => setUpdateEnabled(true)} rows={10}></textarea>
             {inputError && (
               <p className="bg-pink-700 text-neutral-100">Error: {inputError}</p>
             )}
             <div className="flex flex-row place-content-between mt-3">
-              <button className="px-3 py-2 uppercase bg-pink-100 hover:bg-pink-600 text-neutral-700" onClick={clearTextarea}>Clear</button>
+              <button className="px-3 py-2 uppercase bg-pink-100 hover:bg-pink-600 text-neutral-700 hover:text-neutral-100" onClick={clearTextarea}>Clear</button>
+              <button className="px-3 py-2 uppercase bg-pink-700 hover:bg-pink-600 text-neutral-100 disabled:bg-neutral-400" disabled={!updateEnabled} onClick={updateStats}>Update</button>
             </div>
           </div>
           <div className="p-6">
