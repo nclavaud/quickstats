@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { countByDayOfWeek, countByMonth, countByWeek, countByYear } from './counts';
+import { countByDayOfWeek, countByMonth, countByQuarter, countByWeek, countByYear } from './counts';
 
 test('it counts items by year', () => {
   const dates = [
@@ -49,6 +49,25 @@ test('it counts items by month', () => {
   };
 
   expect(countByMonth(dates)).toEqual(expected);
+});
+
+test('it counts items by quarter', () => {
+  const dates = [
+    new Date('2022-11-01'),
+    new Date('2024-01-01'),
+    new Date('2024-03-01'),
+  ];
+
+  const expected = {
+    '2022-Q4': 1,
+    '2023-Q1': 0,
+    '2023-Q2': 0,
+    '2023-Q3': 0,
+    '2023-Q4': 0,
+    '2024-Q1': 2,
+  };
+
+  expect(countByQuarter(dates)).toEqual(expected);
 });
 
 test('it returns no months when dates are empty', () => {

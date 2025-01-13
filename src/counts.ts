@@ -1,7 +1,7 @@
 import { collect } from 'collect.js';
 import { format, lightFormat } from 'date-fns';
 import { weekDate } from './date';
-import { generateRangeMonths, generateRangeWeeks, generateRangeYears } from './range';
+import { generateRangeMonths, generateRangeQuarters, generateRangeWeeks, generateRangeYears } from './range';
 
 export const countByYear = (dates: Date[]) => {
   if (dates.length == 0) {
@@ -14,6 +14,23 @@ export const countByYear = (dates: Date[]) => {
   return collect(generateRangeYears(minDate, maxDate))
     .merge(collect(dates)
       .countBy((date: Date) => lightFormat(date, 'yyyy'))
+      .sortKeys()
+      .all()
+    )
+    .all();
+}
+
+export const countByQuarter = (dates: Date[]) => {
+  if (dates.length == 0) {
+    return {};
+  }
+
+  const minDate = new Date(collect(dates).min());
+  const maxDate = new Date(collect(dates).max());
+
+  return collect(generateRangeQuarters(minDate, maxDate))
+    .merge(collect(dates)
+      .countBy((date: Date) => format(date, "yyyy-'Q'Q"))
       .sortKeys()
       .all()
     )

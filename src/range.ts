@@ -1,4 +1,4 @@
-import { add, format } from 'date-fns';
+import { add, format, getQuarter } from 'date-fns';
 import { weekDate } from './date';
 
 export const generateRangeMonths = (start: Date, end: Date): { [key: string]: number } => {
@@ -14,6 +14,23 @@ export const generateRangeMonths = (start: Date, end: Date): { [key: string]: nu
   for (let i = s; i <= e; i = new Date(i.getFullYear(), i.getMonth() + 1)) {
     const month = i.getMonth() + 1;
     range[`${i.getFullYear()}-${month < 10 ? '0' : ''}${month}`] = 0;
+  }
+
+  return range;
+};
+
+export const generateRangeQuarters = (start: Date, end: Date): { [key: string]: number } => {
+  if (start > end) {
+    return generateRangeQuarters(end, start);
+  }
+
+  const s = new Date(start.getFullYear(), start.getMonth(), 0);
+  const e = new Date(end.getFullYear(), end.getMonth(), 0);
+
+  const range: { [key: string]: number } = {};
+
+  for (let i = s; i <= e; i = new Date(i.getFullYear(), i.getMonth() + 1)) {
+    range[`${i.getFullYear()}-Q${getQuarter(i)}`] = 0;
   }
 
   return range;

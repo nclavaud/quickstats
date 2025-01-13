@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import {
   countByDayOfWeek as getCountByDayOfWeek,
   countByMonth as getCountByMonth,
+  countByQuarter as getCountByQuarter,
   countByWeek as getCountByWeek,
   countByYear as getCountByYear,
 } from './counts';
@@ -54,6 +55,7 @@ function App() {
   const maxDate = dates.length ? new Date(collect(dates).max()) : null;
 
   const countByYear = getCountByYear(dates);
+  const countByQuarter = getCountByQuarter(dates);
   const countByMonth = getCountByMonth(dates);
   const countByWeek = getCountByWeek(dates);
   const countByDayOfWeek = getCountByDayOfWeek(dates);
@@ -104,6 +106,10 @@ function App() {
             <div className="mb-4">
               <h3 className="font-medium">Distribution by year</h3>
               {dates.length ? <BarChart data={countByYear} id='chart-count-by-year' maxItemsOptions={maxItemsOptions} maxItemsInitialOption={'50'} /> : 'n/a'}
+            </div>
+            <div className="mb-4">
+              <h3 className="font-medium">Distribution by quarter</h3>
+              {dates.length ? <BarChart data={countByQuarter} id='chart-count-by-quarter' maxItemsOptions={maxItemsOptions} maxItemsInitialOption={'50'} /> : 'n/a'}
             </div>
             <div className="mb-4">
               <h3 className="font-medium">Distribution by month</h3>
