@@ -58,6 +58,11 @@ function App() {
   const countByWeek = getCountByWeek(dates);
   const countByDayOfWeek = getCountByDayOfWeek(dates);
 
+  const maxItemsOptions = {
+    'last 50 items': '50',
+    'all items': 'all',
+  };
+
   return (
     <>
       <div className="min-h-screen flex flex-col items-stretch">
@@ -98,19 +103,19 @@ function App() {
             </div>
             <div className="mb-4">
               <h3 className="font-medium">Distribution by year</h3>
-              {dates.length ? <BarChart data={countByYear} id='chart-count-by-year' /> : 'n/a'}
+              {dates.length ? <BarChart data={countByYear} id='chart-count-by-year' maxItemsOptions={maxItemsOptions} maxItemsInitialOption={'50'} /> : 'n/a'}
             </div>
             <div className="mb-4">
               <h3 className="font-medium">Distribution by month</h3>
-              {dates.length ? <BarChart data={countByMonth} id='chart-count-by-month' /> : 'n/a'}
+              {dates.length ? <BarChart data={countByMonth} id='chart-count-by-month' maxItemsOptions={maxItemsOptions} maxItemsInitialOption={'50'} /> : 'n/a'}
             </div>
             <div className="mb-4">
               <h3 className="font-medium">Distribution by week</h3>
-              {dates.length ? <BarChart data={countByWeek} id='chart-count-by-week' /> : 'n/a'}
+              {dates.length ? <BarChart data={countByWeek} id='chart-count-by-week' maxItemsOptions={maxItemsOptions} maxItemsInitialOption={'50'} /> : 'n/a'}
             </div>
             <div className="mb-4">
               <h3 className="font-medium">Distribution by day of week</h3>
-              {dates.length ? <BarChart data={countByDayOfWeek} id='chart-count-by-dow' /> : 'n/a'}
+              {dates.length ? <BarChart data={countByDayOfWeek} id='chart-count-by-dow' maxItemsOptions={{}} /> : 'n/a'}
             </div>
           </div>
         </div>
