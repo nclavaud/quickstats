@@ -1,5 +1,5 @@
 import { collect } from 'collect.js';
-import { format, lightFormat } from 'date-fns';
+import { add, format, lightFormat } from 'date-fns';
 import { weekDate } from './date';
 import { generateRangeMonths, generateRangeQuarters, generateRangeWeeks, generateRangeYears } from './range';
 
@@ -101,3 +101,27 @@ export const countByDayOfWeek = (dates: Date[]) => {
     .mapWithKeys((value: string, key: number) => [dayLabels[key], value])
     .all();
 }
+
+export const countMaxConsecutiveDaysWithoutData = (dates: Date[]) => {
+  const minDate = new Date(collect(dates).min());
+  const maxDate = new Date(collect(dates).max());
+
+  const _dates = collect(dates)
+    .map(date => lightFormat(date, 'yyyy-MM-dd'))
+    .unique();
+
+  let maxPeriod = 0;
+  let period = 0;
+
+  for (let i = minDate; i < maxDate; i = add(i, { days: 1 })) {
+    const formatted = lightFormat(i, 'yyyy-MM-dd');
+    if (_dates.contains(formatted)) {
+      maxPeriod = period > maxPeriod ? period : maxPeriod;
+      period = 0;
+    } else {
+      period++;
+    }
+  }
+
+  return maxPeriod;
+};

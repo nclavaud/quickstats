@@ -1,5 +1,12 @@
 import { expect, test } from 'vitest';
-import { countByDayOfWeek, countByMonth, countByQuarter, countByWeek, countByYear } from './counts';
+import {
+  countByDayOfWeek,
+  countByMonth,
+  countByQuarter,
+  countByWeek,
+  countByYear,
+  countMaxConsecutiveDaysWithoutData
+} from './counts';
 
 test('it counts items by year', () => {
   const dates = [
@@ -114,4 +121,18 @@ test('it counts items by day of week', () => {
   };
 
   expect(countByDayOfWeek(dates)).toEqual(expected);
+});
+
+test('it counts the maximum consecutive days without data', () => {
+  const dates = [
+    new Date('2025-01-01'),
+    new Date('2025-01-03'),
+    new Date('2025-01-04'),
+    new Date('2025-01-05'),
+    new Date('2025-01-10'),
+    new Date('2025-01-15'),
+    new Date('2025-01-16'),
+  ];
+
+  expect(countMaxConsecutiveDaysWithoutData(dates)).toBe(4);
 });

@@ -7,6 +7,7 @@ import {
   countByQuarter as getCountByQuarter,
   countByWeek as getCountByWeek,
   countByYear as getCountByYear,
+  countMaxConsecutiveDaysWithoutData,
 } from './counts';
 import BarChart from './BarChart';
 
@@ -53,6 +54,7 @@ function App() {
 
   const minDate = dates.length ? new Date(collect(dates).min()) : null;
   const maxDate = dates.length ? new Date(collect(dates).max()) : null;
+  const maxConsecutiveDaysWithoutData = dates.length ? countMaxConsecutiveDaysWithoutData(dates) : null;
 
   const countByYear = getCountByYear(dates);
   const countByQuarter = getCountByQuarter(dates);
@@ -99,6 +101,10 @@ function App() {
                   <tr>
                     <th className="border px-2 text-start">Max</th>
                     <td className="border px-2 text-end">{maxDate ? maxDate.toLocaleDateString() : '-'}</td>
+                  </tr>
+                  <tr>
+                    <th className="border px-2 text-start">Maximum consecutive days without data</th>
+                    <td className="border px-2 text-end">{maxConsecutiveDaysWithoutData ?? '-'}</td>
                   </tr>
                 </tbody>
               </table>
