@@ -4,6 +4,7 @@ logs
 yarn-debug.log*
 yarn-error.log*
 
+coverage
 node_modules
 dist
 dist-ssr
