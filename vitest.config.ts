@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     coverage: {
       exclude: [
+        '**/*.tsx',
         '**/{postcss,tailwind}.config.*',
         ...coverageConfigDefaults.exclude,
       ],
