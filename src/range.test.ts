@@ -37,6 +37,15 @@ test('it generates a series of quarters between two dates', () => {
   expect(generateRangeQuarters(new Date('2024-09-13'), new Date('2025-02-24'))).toEqual(expected);
 });
 
+test('it always generates a series of quarters in ascending order', () => {
+  const expected = {
+    '2024-Q3': 0,
+    '2024-Q4': 0,
+    '2025-Q1': 0,
+  };
+  expect(generateRangeQuarters(new Date('2025-02-24'), new Date('2024-09-13'))).toEqual(expected);
+});
+
 test('it generates a series of months between two dates', () => {
   const expected = {
     '2024-05': 0,
@@ -72,4 +81,12 @@ test('it generates a series of weeks', () => {
     '2025-W01': 0,
   };
   expect(generateRangeWeeks(new Date('2024-12-29'), new Date('2025-01-03'))).toEqual(expected);
+});
+
+test('it always generates a series of weeks in ascending order', () => {
+  const expected = {
+    '2024-W52': 0,
+    '2025-W01': 0,
+  };
+  expect(generateRangeWeeks(new Date('2025-01-03'), new Date('2024-12-29'))).toEqual(expected);
 });
