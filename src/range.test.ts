@@ -83,6 +83,14 @@ test('it generates a series of weeks', () => {
   expect(generateRangeWeeks(new Date('2024-12-29'), new Date('2025-01-03'))).toEqual(expected);
 });
 
+test('it generates a series of weeks for an interval of 10 days', () => {
+  const expected = {
+    '2024-W52': 0,
+    '2025-W01': 0,
+  };
+  expect(generateRangeWeeks(new Date('2024-12-24'), new Date('2025-01-03'))).toEqual(expected);
+});
+
 test('it always generates a series of weeks in ascending order', () => {
   const expected = {
     '2024-W52': 0,
